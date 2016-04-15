@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <stdio.h>
+using namespace std;
+
+int countdecoding(char * st, int n)
+{
+    if(n==1 || n==0)
+        return 1;
+    int count =0;
+    if(st[n-1]>'0')
+        count = countdecoding(st,n-1);
+    if(st[n-2]<'2'||(st[n-2]=='2' && st[n-1]<'7'))
+        count+=countdecoding(st,n-2);
+    return count;
+
+}
+
+int countdecodingdp(char * st, int n)
+{
+    int count[n+1];
+    count[0] = 1;
+    count[1] = 1;
+    for(int i =2;i<=n;i++)
+    {
+        count[i] = 0;
+        if(st[i-1]>'0')
+            count[i] = count[i-1];
+        if(st[n-2]<'2'||(st[n-2]=='2' && st[n-1]<'7'))
+            count[i]+= count[i-2];
+    }
+    return count[n];
+}
+
+int main()
+{
+    cout<<countdecodingdp("1234",4);
+    return 0;
+}
+
